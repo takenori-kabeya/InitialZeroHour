@@ -30,11 +30,12 @@ module InitialZeroHourTimelogController
     return if start_text_field.nil?
     time = Time.now
     minute = ((time.min / 5.0).round) * 5
-    hour = time.hour
     if minute == 60 then
-      hour += 1
-      minute = 0
+      ymdhm = Time.local(time.year, time.month, time.day, time.hour)
+      ymdhm += 60 * 60
+    else
+      ymdhm = Time.local(time.year, time.month, time.day, time.hour, minute)
     end
-    start_text_field.value = sprintf("%d:%02d", hour, minute)
+    start_text_field.value = sprintf("%04d/%d/%d %d:%02d", ymdhm.year, ymdhm.month, ymdhm.day, ymdhm.hour, ymdhm.min)
   end
 end
